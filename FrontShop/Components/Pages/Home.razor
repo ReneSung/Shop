@@ -1,0 +1,30 @@
+﻿    @page "/"
+    @using FrontShop.Models
+
+    @inject HttpClient HttpClient
+
+    <PageTitle>Home</PageTitle>
+
+    <h1>Одежда</h1>
+
+    @foreach (Product p in products)
+    {
+        <form method="post" onsubmit="return false;">
+            <p>
+                 @p.Name — @p.Price ₽ — @p.Size
+                <button type="button">Добавить в корзину</button>
+            </p>
+        </form>
+    }
+    
+    
+    @code {
+        const long userId = 1;
+        
+        List<Product> products = [];
+
+        protected override async Task OnInitializedAsync()
+        {
+            products = await HttpClient.GetFromJsonAsync<List<Product>>("api/Product");
+        }
+    }

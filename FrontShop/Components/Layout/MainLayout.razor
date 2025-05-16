@@ -1,0 +1,40 @@
+﻿@using FrontShop.Models
+@inherits LayoutComponentBase
+@inject HttpClient HttpClient
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu/>
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+                @user.FirstName @user.LastName: @user.Balance₽
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
+
+@code {
+    const long userId = 1;
+    User user = new User();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        user = await HttpClient.GetFromJsonAsync<User>($"api/User/{userId}");
+    }
+    
+    /*private async Task GetUser()
+    {
+        user = await HttpClient.GetFromJsonAsync<User>($"api/User/{userId}");
+    }*/
+}
